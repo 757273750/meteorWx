@@ -1,0 +1,116 @@
+{
+  "name": "scaffolding",
+  "private": true,
+  "scripts": {
+    "start": "meteor run",
+    "lint": "eslint .",
+    "pretest": "npm run lint --silent"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "bcrypt": "^1.0.2",
+    "fibers": "^1.0.15",
+    "jssha": "^1.6.0",
+    "lodash": "^4.13.1",
+    "meteor-node-stubs": "^0.2.3",
+    "moment": "^2.14.1",
+    "radium": "^0.18.1",
+    "react": "^15.4.2",
+    "react-addons-pure-render-mixin": "^15.2.1",
+    "react-addons-update": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.6.0",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.5.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "eslint": "^3.3.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-import-resolver-meteor": "^0.3.1",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-jsx-a11y": "^1.2.2",
+    "eslint-plugin-meteor": "^3.5.2",
+    "eslint-plugin-react": "^5.1.1",
+    "redux-devtools": "*"
+  },
+  "babel": {
+    "plugins": [
+      "transform-decorators-legacy"
+    ]
+  },
+  "eslintConfig": {
+    "plugins": [
+      "meteor"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:meteor/recommended"
+    ],
+    "env": {
+      "jquery": true,
+      "meteor": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+      "strict": 0,
+      "meteor/eventmap-params": [
+        2,
+        {
+          "eventParamName": "event",
+          "templateInstanceParamName": "instance"
+        }
+      ],
+      "import/no-unresolved": [
+        2,
+        {
+          "ignore": [
+            "^meteor/"
+          ]
+        }
+      ],
+      "no-underscore-dangle": [
+        "error",
+        {
+          "allow": [
+            "_id"
+          ]
+        }
+      ],
+      "new-cap": [
+        "error",
+        {
+          "capIsNewExceptions": []
+        }
+      ],
+      "no-undef": [
+        2
+      ],
+      "no-param-reassign": [
+        "error",
+        {
+          "props": false
+        }
+      ],
+      "max-len": [
+        "error",
+        100,
+        {
+          "ignoreUrls": true,
+          "ignoreComments": true,
+          "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(/"
+        }
+      ]
+    },
+    "globals": {
+      "Meteor": false,
+      "Session": false,
+      "moment": false
+    },
+    "settings": {
+      "import/resolver": "meteor"
+    }
+  }
+}
