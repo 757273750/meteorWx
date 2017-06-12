@@ -78,13 +78,14 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
                   <MsgType><![CDATA[text]]></MsgType>
                   <Content><![CDATA[${msg}]]></Content>
                 </xml>`;
-            res.send(sendMessage);
+            res.end(sendMessage);
           }
         });
       });
       parse.parseString(xmlStr);
+      res.end(echostr);
     });
-    res.end(echostr);
+   // res.end(echostr);
   } else {
     res.end(0);
   }
