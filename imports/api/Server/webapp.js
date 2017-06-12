@@ -24,11 +24,6 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
   const original = oriArray.join('');
   const shaObj = new JsSHA(original, 'TEXT');
   const scyptoString = shaObj.getHash('SHA-1', 'HEX');
-  if (scyptoString === signature) {
-    res.end(echostr);
-  } else {
-    res.end(0);
-  }
   let postData = '';
   req.on('data', (data) => { postData = data; });
   req.on('end', () => {
@@ -82,11 +77,15 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
                 <MsgType><![CDATA[text]]></MsgType>
                 <Content><![CDATA[${msg}]]></Content>
               </xml>`;
-          res.end(sendMessage);
+          res.send(sendMessage);
         }
       });
     });
     parse.parseString(xmlStr);
-    res.end(echostr);
   });
+  if (scyptoString === signature) {
+    res.end(echostr);
+  } else {
+    res.end(0);
+  }
 });
