@@ -24,6 +24,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
   const shaObj = new JsSHA(original, 'TEXT');
   const scyptoString = shaObj.getHash('SHA-1', 'HEX');
   if (scyptoString === signature) {
+    console.log(req);
     res.end(echostr);
   } else {
     res.end(0);
