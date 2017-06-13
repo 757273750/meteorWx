@@ -3,7 +3,6 @@ import JsSHA from 'jssha';
 import xml from 'node-xml';
 
 function tuLingreply(text) {
-  check(text, String);
   const wrappedHttp = Async.wrap(HTTP, ['post']);
   const res = wrappedHttp.post(
     'http://www.tuling123.com/openapi/api',
