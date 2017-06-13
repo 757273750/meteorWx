@@ -89,7 +89,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
           let msg = '';
           if (MsgType === 'text') {
             // msg = `hi,你说的是:${Content}`;
-            HTTP.post(
+            Meteor.wrapAsync(HTTP.post(
               'http://www.tuling123.com/openapi/api',
               {
                 params: {
@@ -97,7 +97,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
                   info: Content,
                 },
               },
-              Meteor.bindEnvironment((err, res1) => {
+              (err, res1) => {
                 let reply = '';
                 if (res1 && res1.statusCode === 200) {
                   const content = JSON.parse(res1.content);
@@ -113,8 +113,8 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
                       </xml>`;
                   res.end(sendMessage);
                 }
-              }),
-            );
+              },
+            ));
           }
         });
       });
