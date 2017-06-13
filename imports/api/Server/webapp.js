@@ -97,7 +97,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
                   info: Content,
                 },
               },
-              (err, res1) => {
+              Meteor.bindEnvironment((err, res1) => {
                 let reply = '';
                 if (res1 && res1.statusCode === 200) {
                   const content = JSON.parse(res1.content);
@@ -113,7 +113,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
                       </xml>`;
                   res.end(sendMessage);
                 }
-              },
+              }),
             );
           }
         });
