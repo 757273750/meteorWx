@@ -2,6 +2,27 @@ import { Meteor } from 'meteor/meteor';
 import JsSHA from 'jssha';
 import xml from 'node-xml';
 
+function tuLingreply(text) {
+  check(text, String);
+  const wrappedHttp = Async.wrap(HTTP, ['post']);
+  const res = wrappedHttp.post(
+    'http://www.tuling123.com/openapi/api',
+    {
+      params: {
+        key: '3384f71c080595dd5d1eae97fe5a66c3',
+        info: text,
+      },
+    },
+  );
+  let reply = '';
+  if (res && res.statusCode === 200) {
+    const content = JSON.parse(res.content);
+    reply = content.text;
+  }
+  return reply;
+}
+
+
 WebApp.connectHandlers.use('/hello', (req, res) => {
   const test = Meteor.call('addToTest');
   if (test) {
@@ -69,7 +90,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
           let msg = '';
           if (MsgType === 'text') {
             // msg = `hi,你说的是:${Content}`;
-            msg = Meteor.call('reply', Content);
+            msg = tuLingreply(Content);
             // 组织返回的数据包
             const sendMessage = `
                 <xml>
