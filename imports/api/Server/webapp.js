@@ -89,32 +89,30 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
           let msg = '';
           if (MsgType === 'text') {
             // msg = `hi,你说的是:${Content}`;
-            Meteor.wrapAsync(HTTP.post(
+            const res1 = Meteor.wrapAsync(HTTP.post(
               'http://www.tuling123.com/openapi/api',
               {
                 params: {
                   key: '3384f71c080595dd5d1eae97fe5a66c3',
                   info: Content,
                 },
-              },
-              (err, res1) => {
-                let reply = '';
-                if (res1 && res1.statusCode === 200) {
-                  const content = JSON.parse(res1.content);
-                  reply = content.text;
-                  // 组织返回的数据包
-                  const sendMessage = `
-                      <xml>
-                        <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
-                        <FromUserName><![CDATA[${ToUserName}]]></FromUserName>
-                        <CreateTime>${CreateTime}</CreateTime>
-                        <MsgType><![CDATA[text]]></MsgType>
-                        <Content><![CDATA[${reply}]]></Content>
-                      </xml>`;
-                  res.end(sendMessage);
-                }
-              },
+              }
             ));
+            let reply = '';
+            if (res1 && res1.statusCode === 200) {
+              const content = JSON.parse(res1.content);
+              reply = content.text;
+              // 组织返回的数据包
+              const sendMessage = `
+                  <xml>
+                    <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
+                    <FromUserName><![CDATA[${ToUserName}]]></FromUserName>
+                    <CreateTime>${CreateTime}</CreateTime>
+                    <MsgType><![CDATA[text]]></MsgType>
+                    <Content><![CDATA[${reply}]]></Content>
+                  </xml>`;
+              res.end(sendMessage);
+            }
           }
         });
       });
