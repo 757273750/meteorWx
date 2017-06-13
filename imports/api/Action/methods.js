@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Mongo } from 'meteor/mongo';
-const Future = require('fibers/future');
 import _ from 'lodash';
 
 Meteor.methods({
