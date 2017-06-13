@@ -10,8 +10,8 @@ Meteor.methods({
   },
   reply(text) {
     check(text, String);
-    const wrappedHttp = Async.wrap(HTTP, ['post']);
-    const res = wrappedHttp.post(
+    const replyFuture = new Future();
+    HTTP.post(
       'http://www.tuling123.com/openapi/api',
       {
         params: {
@@ -19,12 +19,15 @@ Meteor.methods({
           info: text,
         },
       },
+      (err, res) => {
+        let reply = '';
+        if (res && res.statusCode === 200) {
+          const content = JSON.parse(res.content);
+          reply = content.text;
+        }
+        replyFuture.return(reply);
+      }
     );
-    let reply = '';
-    if (res && res.statusCode === 200) {
-      const content = JSON.parse(res.content);
-      reply = content.text;
-    }
-    return reply;
+    return replyFuture.wait();
   },
 });
