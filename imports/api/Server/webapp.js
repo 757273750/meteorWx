@@ -94,7 +94,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
               {
                 params: {
                   key: '3384f71c080595dd5d1eae97fe5a66c3',
-                  info: text,
+                  info: Content,
                 },
               },
               (err, res1) => {
