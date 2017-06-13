@@ -68,8 +68,9 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
           CreateTime = parseInt(new Date().getTime() / 1000, 10);
           let msg = '';
           if (MsgType === 'text') {
-            msg = `谢谢关注,你说的是:${Content}`;
-             // 组织返回的数据包
+            // msg = `hi,你说的是:${Content}`;
+            msg = Meteor.call('reply', Content);
+            // 组织返回的数据包
             const sendMessage = `
                 <xml>
                   <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
