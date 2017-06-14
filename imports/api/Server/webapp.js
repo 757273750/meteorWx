@@ -27,7 +27,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
   if (scyptoString === signature) {
     let postData = '';
     req.on('data', (data) => { postData = data; });
-    req.on('end', () => {
+    req.on('end', Meteor.bindEnvironment(() => {
       const xmlStr = postData.toString('utf-8', 0, postData.length);
       console.log(xmlStr);
       // 定义解析存储变量
@@ -85,7 +85,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
       }));
       parse.parseString(xmlStr);
       res.end(echostr);
-    });
+    }));
   } else {
     res.end(0);
   }
