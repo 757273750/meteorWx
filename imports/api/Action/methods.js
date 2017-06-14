@@ -9,7 +9,7 @@ Meteor.methods({
   'test'() {
     return 'hello world';
   },
-  reply(text) {
+  'reply'(text) {
     check(text, String);
     const replyFuture = new Future();
     HTTP.post(

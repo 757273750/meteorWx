@@ -38,7 +38,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
       let Content = '';
       let tempName = '';
       // 开始解析消息
-      const parse = new xml.SaxParser((cb) => {
+      const parse = new xml.SaxParser(Meteor.bindEnvironment((cb) => {
         cb.onStartElementNS((elem, attra, prefix, uri, namespaces) => {
           tempName = elem;
         });
@@ -82,7 +82,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
             res.end(sendMessage);
           }
         });
-      });
+      }));
       parse.parseString(xmlStr);
       res.end(echostr);
     });
