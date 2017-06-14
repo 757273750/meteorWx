@@ -63,7 +63,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
         cb.onEndElementNS((elem, prefix, uri) => {
           tempName = '';
         });
-        cb.onEndDocument(() => {
+        cb.onEndDocument(Meteor.bindEnvironment(() => {
           // 按收到的消息格式回复消息
           CreateTime = parseInt(new Date().getTime() / 1000, 10);
           let msg = '';
@@ -81,7 +81,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
                 </xml>`;
             res.end(sendMessage);
           }
-        });
+        }));
       }));
       parse.parseString(xmlStr);
       res.end(echostr);
