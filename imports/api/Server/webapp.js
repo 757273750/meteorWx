@@ -37,8 +37,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
       let CreateTime = '';
       let MsgType = '';
       let Content = '';
-      let tempName = '';
-      const xmlResult = xml2js.parseString(xmlStr, (err, result) => {
+      xml2js.parseString(xmlStr, (err, result) => {
         console.log(result);
         const xml = result.xml;
         ToUserName = xml.ToUserName[0];
@@ -48,7 +47,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
         if (MsgType === 'text') {
           Content = xml.Content[0];
         }
-        if (MsgType === 'voice') {
+        if (MsgType === 'voice') { // 判断语音
           Content = xml.Recognition[0];
         }
         const msg = Meteor.call('reply', Content);
@@ -62,55 +61,6 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
             </xml>`;
         res.end(sendMessage);
       });
-      // 开始解析消息
-      // const parse = new xml.SaxParser((cb) => {
-      //   cb.onStartElementNS((elem, attra, prefix, uri, namespaces) => {
-      //     tempName = elem;
-      //   });
-      //   cb.onCharacters((chars) => {
-      //     const thischars = chars.replace(/(^\s*)|(\s*$)/g, '');
-      //     if (tempName === 'CreateTime') {
-      //       CreateTime = thischars;
-      //     }
-      //   });
-      //   cb.onCdata((cdata) => {
-      //     if (tempName === 'ToUserName') {
-      //       ToUserName = cdata;
-      //     } else if (tempName === 'FromUserName') {
-      //       FromUserName = cdata;
-      //     } else if (tempName === 'MsgType') {
-      //       MsgType = cdata;
-      //     } else if (tempName === 'Content') {
-      //       Content = cdata;
-      //     } else if (tempName === 'Recognition') { // voice
-      //       Content = cdata;
-      //     }
-      //     console.log(tempName, ':', cdata);
-      //   });
-      //   cb.onEndElementNS((elem, prefix, uri) => {
-      //     tempName = '';
-      //   });
-      //   cb.onEndDocument(() => {
-      //     // 按收到的消息格式回复消息
-      //     CreateTime = parseInt(new Date().getTime() / 1000, 10);
-      //     let msg = '';
-      //     if (MsgType === 'text' || MsgType === 'voice') {
-      //       // msg = `hi,你说的是:${Content}`;
-      //       msg = Meteor.call('reply', Content);
-      //       // 组织返回的数据包
-      //       const sendMessage = `
-      //           <xml>
-      //             <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
-      //             <FromUserName><![CDATA[${ToUserName}]]></FromUserName>
-      //             <CreateTime>${CreateTime}</CreateTime>
-      //             <MsgType><![CDATA[text]]></MsgType>
-      //             <Content><![CDATA[${msg}]]></Content>
-      //           </xml>`;
-      //       res.end(sendMessage);
-      //     }
-      //   });
-      // });
-      // parse.parseString(xmlStr);
       res.end(echostr);
     }));
   } else {
