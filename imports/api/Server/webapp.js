@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import JsSHA from 'jssha';
-import xml from 'node-xml';
+// import xml from 'node-xml';
 import xml2js from 'xml2js';
 
 WebApp.connectHandlers.use('/hello', (req, res) => {
@@ -40,6 +40,13 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
       let tempName = '';
       const xmlResult = xml2js.parseString(xmlStr, (err, res) => {
         console.log(res);
+        const xml = res.xml;
+        ToUserName = xml.ToUserName[0];
+        FromUserName = xml.FromUserName[0];
+        CreateTime = xml.CreateTime[0];
+        MsgType = xml.MsgType[0];
+        Content = xml.Content[0] || xml.Recognition[0];
+        console.log(Content);
       });
       // 开始解析消息
       // const parse = new xml.SaxParser((cb) => {
