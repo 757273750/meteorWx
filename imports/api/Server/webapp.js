@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import JsSHA from 'jssha';
 import xml from 'node-xml';
+import xml2js from 'xml2js';
 
 WebApp.connectHandlers.use('/hello', (req, res) => {
   const test = Meteor.call('addToTest');
@@ -37,55 +38,58 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
       let MsgType = '';
       let Content = '';
       let tempName = '';
-      // 开始解析消息
-      const parse = new xml.SaxParser((cb) => {
-        cb.onStartElementNS((elem, attra, prefix, uri, namespaces) => {
-          tempName = elem;
-        });
-        cb.onCharacters((chars) => {
-          const thischars = chars.replace(/(^\s*)|(\s*$)/g, '');
-          if (tempName === 'CreateTime') {
-            CreateTime = thischars;
-          }
-        });
-        cb.onCdata((cdata) => {
-          if (tempName === 'ToUserName') {
-            ToUserName = cdata;
-          } else if (tempName === 'FromUserName') {
-            FromUserName = cdata;
-          } else if (tempName === 'MsgType') {
-            MsgType = cdata;
-          } else if (tempName === 'Content') {
-            Content = cdata;
-          } else if (tempName === 'Recognition') { // voice
-            Content = cdata;
-          }
-          console.log(tempName, ':', cdata);
-        });
-        cb.onEndElementNS((elem, prefix, uri) => {
-          tempName = '';
-        });
-        cb.onEndDocument(() => {
-          // 按收到的消息格式回复消息
-          CreateTime = parseInt(new Date().getTime() / 1000, 10);
-          let msg = '';
-          if (MsgType === 'text' || MsgType === 'voice') {
-            // msg = `hi,你说的是:${Content}`;
-            msg = Meteor.call('reply', Content);
-            // 组织返回的数据包
-            const sendMessage = `
-                <xml>
-                  <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
-                  <FromUserName><![CDATA[${ToUserName}]]></FromUserName>
-                  <CreateTime>${CreateTime}</CreateTime>
-                  <MsgType><![CDATA[text]]></MsgType>
-                  <Content><![CDATA[${msg}]]></Content>
-                </xml>`;
-            res.end(sendMessage);
-          }
-        });
+      const xmlResult = xml2js.parseString(xmlStr, (err, res) => {
+        console.log(resß);
       });
-      parse.parseString(xmlStr);
+      // 开始解析消息
+      // const parse = new xml.SaxParser((cb) => {
+      //   cb.onStartElementNS((elem, attra, prefix, uri, namespaces) => {
+      //     tempName = elem;
+      //   });
+      //   cb.onCharacters((chars) => {
+      //     const thischars = chars.replace(/(^\s*)|(\s*$)/g, '');
+      //     if (tempName === 'CreateTime') {
+      //       CreateTime = thischars;
+      //     }
+      //   });
+      //   cb.onCdata((cdata) => {
+      //     if (tempName === 'ToUserName') {
+      //       ToUserName = cdata;
+      //     } else if (tempName === 'FromUserName') {
+      //       FromUserName = cdata;
+      //     } else if (tempName === 'MsgType') {
+      //       MsgType = cdata;
+      //     } else if (tempName === 'Content') {
+      //       Content = cdata;
+      //     } else if (tempName === 'Recognition') { // voice
+      //       Content = cdata;
+      //     }
+      //     console.log(tempName, ':', cdata);
+      //   });
+      //   cb.onEndElementNS((elem, prefix, uri) => {
+      //     tempName = '';
+      //   });
+      //   cb.onEndDocument(() => {
+      //     // 按收到的消息格式回复消息
+      //     CreateTime = parseInt(new Date().getTime() / 1000, 10);
+      //     let msg = '';
+      //     if (MsgType === 'text' || MsgType === 'voice') {
+      //       // msg = `hi,你说的是:${Content}`;
+      //       msg = Meteor.call('reply', Content);
+      //       // 组织返回的数据包
+      //       const sendMessage = `
+      //           <xml>
+      //             <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
+      //             <FromUserName><![CDATA[${ToUserName}]]></FromUserName>
+      //             <CreateTime>${CreateTime}</CreateTime>
+      //             <MsgType><![CDATA[text]]></MsgType>
+      //             <Content><![CDATA[${msg}]]></Content>
+      //           </xml>`;
+      //       res.end(sendMessage);
+      //     }
+      //   });
+      // });
+      // parse.parseString(xmlStr);
       res.end(echostr);
     }));
   } else {

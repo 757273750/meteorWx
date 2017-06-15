@@ -24,7 +24,8 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.6.0",
     "react-router-redux": "^4.0.5",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
