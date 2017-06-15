@@ -31,24 +31,4 @@ Meteor.methods({
     );
     return replyFuture.wait();
   },
-  'ocr'(url) {
-    check(url, String);
-    const ocrFuture = new Future();
-    HTTP.post(
-      'https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/ocr',
-      {
-        content: '{url: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497556515930&di=75cbd6996f32f89f679f9e4f631655c7&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201404%2F24%2F20140424200528_tvkG3.jpeg"}',
-        headers: {
-          'Content-Type': 'application/json',
-          'Ocp-Apim-Subscription-Key': 'd64a6154ee474f9988078e2469952b5e',
-        },
-      },
-      (err, res) => {
-        if (res) {
-          ocrFuture.return(res);
-        }
-      }
-    );
-    return ocrFuture.wait();
-  },
 });
