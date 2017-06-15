@@ -45,7 +45,12 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
         FromUserName = xml.FromUserName[0];
         CreateTime = xml.CreateTime[0];
         MsgType = xml.MsgType[0];
-        Content = xml.Content[0] || xml.Recognition[0];
+        if (MsgType === 'text') {
+          Content = xml.Content[0];
+        }
+        if (MsgType === 'voice') {
+          Content = xml.Recognition[0];
+        }
         console.log(Content);
       });
       // 开始解析消息
