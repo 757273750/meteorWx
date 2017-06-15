@@ -57,6 +57,8 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
             MsgType = cdata;
           } else if (tempName === 'Content') {
             Content = cdata;
+          } else if (tempName === 'Recognition') { // voice
+            Content = cdata;
           }
           console.log(tempName, ':', cdata);
         });
@@ -67,7 +69,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
           // 按收到的消息格式回复消息
           CreateTime = parseInt(new Date().getTime() / 1000, 10);
           let msg = '';
-          if (MsgType === 'text') {
+          if (MsgType === 'text' || MsgType === 'voice') {
             // msg = `hi,你说的是:${Content}`;
             msg = Meteor.call('reply', Content);
             // 组织返回的数据包
