@@ -39,7 +39,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
       let Content = '';
       let tempName = '';
       const xmlResult = xml2js.parseString(xmlStr, (err, res) => {
-        console.log(resß);
+        console.log(res);
       });
       // 开始解析消息
       // const parse = new xml.SaxParser((cb) => {
