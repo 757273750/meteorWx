@@ -38,9 +38,9 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
       let MsgType = '';
       let Content = '';
       let tempName = '';
-      const xmlResult = xml2js.parseString(xmlStr, (err, res) => {
-        console.log(res);
-        const xml = res.xml;
+      const xmlResult = xml2js.parseString(xmlStr, (err, result) => {
+        console.log(result);
+        const xml = result.xml;
         ToUserName = xml.ToUserName[0];
         FromUserName = xml.FromUserName[0];
         CreateTime = xml.CreateTime[0];
