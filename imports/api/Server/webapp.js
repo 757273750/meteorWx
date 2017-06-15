@@ -51,7 +51,16 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
         if (MsgType === 'voice') {
           Content = xml.Recognition[0];
         }
-        console.log(Content);
+        const msg = Meteor.call('reply', Content);
+        const sendMessage = `
+            <xml>
+              <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
+              <FromUserName><![CDATA[${ToUserName}]]></FromUserName>
+              <CreateTime>${CreateTime}</CreateTime>
+              <MsgType><![CDATA[text]]></MsgType>
+              <Content><![CDATA[${msg}]]></Content>
+            </xml>`;
+        res.end(sendMessage);
       });
       // 开始解析消息
       // const parse = new xml.SaxParser((cb) => {
