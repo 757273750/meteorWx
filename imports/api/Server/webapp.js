@@ -47,6 +47,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
         if (MsgType === 'text') {
           Content = xml.Content[0];
         }
+        const msg = Content;
         // const msg = Meteor.call('reply', Content);
         const sendMessage = `
             <xml>
