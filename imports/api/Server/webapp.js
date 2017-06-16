@@ -48,10 +48,15 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
         if (MsgType === 'text') {
           Content = xml.Content[0];
         }
-        if (MsgType === 'voice') {
+        if (MsgType === 'voice') { // 判断语音
           Content = xml.Recognition[0];
         }
-        const msg = Meteor.call('reply', Content);
+        let msg = '';
+        if (MsgType === 'video') {
+          msg = '⁶⁶⁶⁶⁶     卧槽⁶⁶⁶⁶⁶⁶    666 ⁶⁶⁶⁶⁶⁶    ⁶⁶⁶⁶⁶⁶     ⁶⁶66⁶⁶⁶⁶     ⁶⁶⁶⁶⁶⁶卧槽    ⁶⁶666⁶⁶⁶⁶⁶⁶⁶⁶⁶卧槽   ⁶⁶⁶⁶⁶⁶    ⁶⁶66⁶⁶⁶⁶     卧槽⁶⁶⁶⁶⁶⁶     ⁶6666⁶⁶666   666   ⁶⁶⁶⁶⁶⁶   666666    ⁶⁶⁶   66666   ⁶⁶⁶⁶⁶⁶⁶⁶⁶     卧槽⁶⁶⁶⁶⁶⁶    666 ⁶⁶⁶⁶⁶⁶    ⁶⁶⁶⁶⁶⁶     ⁶⁶66⁶⁶⁶⁶     ⁶⁶⁶⁶⁶⁶卧槽    ⁶⁶666⁶⁶⁶⁶⁶⁶⁶⁶⁶卧槽   ⁶⁶⁶⁶⁶⁶    ⁶⁶66⁶⁶⁶⁶     卧槽⁶⁶⁶⁶⁶⁶     ⁶6666⁶⁶666   666     卧槽⁶⁶⁶⁶⁶⁶     ⁶6666⁶⁶666   6';
+        } else {
+          msg = Meteor.call('reply', Content);
+        }
         const sendMessage = `
             <xml>
               <ToUserName><![CDATA[${FromUserName}]]></ToUserName>
