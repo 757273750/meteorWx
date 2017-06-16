@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import JsSHA from 'jssha';
+import Crypto from 'crypto';
 
 WebApp.connectHandlers.use('/hello', (req, res) => {
   const test = Meteor.call('test');
@@ -21,8 +21,7 @@ WebApp.connectHandlers.use('/wechat', (req, res) => {
   oriArray[2] = token;
   oriArray.sort();
   const original = oriArray.join('');
-  const shaObj = new JsSHA(original, 'TEXT');
-  const scyptoString = shaObj.getHash('SHA-1', 'HEX');
+  const scyptoString = Crypto.createHash('sha1').update(original).digest('hex');
   if (scyptoString === signature) {
     res.end(echostr);
   } else {
